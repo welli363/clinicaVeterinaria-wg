@@ -6,7 +6,7 @@ const listasTodosAnimais = async () => {
         return resultado.rows
     
     }catch(error) {
-        console.log('Erro ao digitar todos os livros', error.message)
+        console.log('Erro ao digitar todos os animais', error.message)
         throw error
     }
 };
@@ -19,14 +19,14 @@ const buscarAnimalPorId = async (id) => {
     return resultado.rows[0]
 };
 
-const criarAnimal = async ({nome, especie, raca, data_de_nascimento, tutor_id}) => {
+const criarAnimal = async ({nome, especie, raca, data_nascimento, tutor_id}) => {
     try{
         const query = `INSERT INTO tutores (nome, especie, raca, data_de_nascimento ) VALUES ($1, $2, $3, $4, $5) RETURNING *`
         const res = await pool.query([
             nome, 
             especie,
             raca,
-            data_de_nascimento,
+            data_nascimento,
             tutor_id,
         ])
     }catch(error) {

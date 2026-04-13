@@ -1,6 +1,6 @@
 const validarContentType = (req, res, next) => {
     // Filtramos apenas métodos que enviam corpo (body)
-    const metodosComBody = ['POST', 'PUT'];
+    const metodosComBody = [ 'PUT'];
   
     if (metodosComBody.includes(req.method)) {
       const contentType = req.headers['content-type'];

@@ -3,6 +3,6 @@ const animaisController = require('../controllers/animais.controller')
 
 router.get('/', animaisController.listarAnimais);
 router.get('/:id', animaisController.buscarAnimalPorId);
-router.get('/', animaisController.criarAnimal);
+router.post('/', animaisController.criarAnimal);
 
 module.exports = router;

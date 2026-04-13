@@ -32,7 +32,7 @@ const criarAnimal = async (req, res) => {
     
         // 201 = Created — status correto para criação bem-sucedida
         res.status(201).json({
-          mensagem: 'Livro cadastrado no acervo com sucesso!',
+          mensagem: 'Animal cadastrado com sucesso!',
           animal: novoAnimal,
         });
       } catch (erro) {
