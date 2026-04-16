@@ -3,7 +3,7 @@ const tutoresService = require('../services/tutores.service');
 // GET /usuarios
 const listarTutores = async (req, res) => {
   try {
-    const tutores = await tutoresService.listarTodosTutores;
+    const tutores = await tutoresService.listarTodosTutores();
     res.status(200).json({ total: tutores.length, tutores });
   } catch (erro) {
     res.status(500).json({ erro: 'Erro interno ao listar tutores.' });
@@ -14,7 +14,7 @@ const listarTutores = async (req, res) => {
 const buscarTutorPorId = async (req, res) => {
   try {
     const { id } = req.params;
-    const tutor = await tutoresService.buscarTutorPorId();
+    const tutor = await tutoresService.buscarTutorPorId(id);
 
     if (!tutor) {
       return res.status(404).json({ erro: `Tutor ${id} não encontrado.` });

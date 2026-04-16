@@ -1,40 +1,35 @@
-const pool = require('../database/connection')
+const pool = require("../database/connection")
 
 const listasTodosAnimais = async () => {
-    try {
+      try{
         const resultado = await pool.query('SELECT * FROM animais ORDER BY id')
-        return resultado.rows
-    
-    }catch(error) {
+        return resultado.rows 
+    }catch(error){
         console.log('Erro ao digitar todos os animais', error.message)
         throw error
     }
 };
 
 const buscarAnimalPorId = async (id) => {
-    const resultado = await pool.query('SELECT * FROM animais WHERE id = $1', [
-        id,
-    ])
-
-    return resultado.rows[0]
+  return animais.find((animal) => animal.id === Number(id)) || null;
 };
 
-const criarAnimal = async ({nome, especie, raca, data_nascimento, tutor_id}) => {
-    try{
-        const query = `INSERT INTO tutores (nome, especie, raca, data_de_nascimento ) VALUES ($1, $2, $3, $4, $5) RETURNING *`
-        const res = await pool.query([
-            nome, 
-            especie,
-            raca,
-            data_nascimento,
-            tutor_id,
-        ])
-    }catch(error) {
-        console.log('Erro ao criar animal', error.message)
-        throw error
-    }
+const criarAnimal = async ({ nome, especie, raca, data_nascimento, tutor_id }) => {
+  if (!nome || !especie) {
+    throw new Error('Nome e espécie são obrigatórios.');
+  }
 
-    return res.rows[0]
+  const novoAnimal = {
+    id: animais.length + 1,
+    nome,
+    especie,
+    raca: raca || '',
+    data_nascimento: data_nascimento || null,
+    tutor_id: tutor_id || null,
+  };
+
+  animais.push(novoAnimal);
+  return novoAnimal;
 };
 
-module.exports = {listasTodosAnimais, buscarAnimalPorId, criarAnimal};
+module.exports = { listasTodosAnimais, buscarAnimalPorId, criarAnimal };

@@ -4,7 +4,21 @@ const { logger, errorHandler } = require('./src/middlewares/main.middleware');
 
 const app = express();
 
+// Normaliza URLs com espaços codificados no final, como /animais%20
+const normalizeUrl = (req, res, next) => {
+  const [pathname, search = ''] = req.originalUrl.split('?');
+  const normalizedPath = pathname.replace(/(?:%20)+$/g, '').replace(/\s+$/g, '');
+
+  if (normalizedPath !== pathname) {
+    const redirectUrl = normalizedPath + (search ? `?${search}` : '');
+    return res.redirect(301, redirectUrl);
+  }
+
+  next();
+};
+
 // Middlewares de Infraestrutura (Rodam sempre, até para rotas que não existem)
+app.use(normalizeUrl);
 app.use(express.json());
 app.use(logger);
 

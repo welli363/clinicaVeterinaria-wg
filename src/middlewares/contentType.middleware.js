@@ -1,6 +1,6 @@
 const validarContentType = (req, res, next) => {
     // Filtramos apenas métodos que enviam corpo (body)
-    const metodosComBody = [ 'PUT'];
+    const metodosComBody = ['POST', 'PUT', 'PATCH'];
   
     if (metodosComBody.includes(req.method)) {
       const contentType = req.headers['content-type'];
@@ -10,7 +10,7 @@ const validarContentType = (req, res, next) => {
         return res.status(415).json({
           erro: 'Tipo de mídia não suportado',
           mensagem:
-            'A Clinica Veterinária exige Content-Type: application/json para esta operação.',
+            'A Clínica Veterinária exige Content-Type: application/json para esta operação.',
         });
       }
     }

@@ -26,19 +26,30 @@ const buscarAnimalPorId = async (req, res) => {
 
 const criarAnimal = async (req, res) => {
     try {
-        // Extrai os dados do corpo da requisição
-        const { nome, especie } = req.body;
-        const novoAnimal = await animaisService.criarAnimal({ nome, especie });
-    
-        // 201 = Created — status correto para criação bem-sucedida
-        res.status(201).json({
-          mensagem: 'Animal cadastrado com sucesso!',
-          animal: novoAnimal,
-        });
-      } catch (erro) {
-        // Se o Service lançou um erro de validação, retornamos 400
-        res.status(400).json({ erro: erro.message });
-      }
-}
+        const { nome, especie, raca, data_nascimento, tutor_id } = req.body;
 
-module.exports = { listarAnimais, buscarAnimalPorId, criarAnimal}
+        if (!nome || !especie) {
+            return res.status(400).json({
+                erro: 'Os campos nome e especie são obrigatórios.',
+            });
+        }
+
+        const novoAnimal = await animaisService.criarAnimal({
+            nome,
+            especie,
+            raca,
+            data_nascimento,
+            tutor_id,
+        });
+
+        res.status(201).json({
+            mensagem: 'Animal cadastrado com sucesso!',
+            animal: novoAnimal,
+        });
+    } catch (erro) {
+        console.log('Erro no controlador ao criar animal:', erro.message);
+        res.status(500).json({ erro: 'Erro interno ao cadastrar animal.' });
+    }
+};
+
+module.exports = { listarAnimais, buscarAnimalPorId, criarAnimal };

@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router();
 const animaisRoutes = require('./animais.routes');
 const tutoresRoutes = require('./tutores.routes');
+const consultasRoutes = require('./consultas.routes');
 const { autenticar, validarContentType} = require('../middlewares/main.middleware')
 
 router.get('/', (req, res) => {
@@ -15,6 +16,7 @@ router.use(validarContentType);
 
 router.use('/animais', animaisRoutes);
 router.use('/tutores', tutoresRoutes)
+router.use('/consultas', consultasRoutes)
 
 
 

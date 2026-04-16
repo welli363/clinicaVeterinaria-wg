@@ -1,7 +1,6 @@
 const CHAVE_ACESSO = 'clinica-veterinaria-wellington';
 
 const autenticar = (req, res, next) => {
-
   const authHeader = req.headers['authorization'];
 
   if (!authHeader) {
@@ -11,16 +10,23 @@ const autenticar = (req, res, next) => {
     });
   }
 
-  // Extrai apenas o token (remove o prefixo 'Bearer ')
-  const token = authHeader.split(' ')[1];
+  const bearerMatch = authHeader.match(/^Bearer\s+(.+)$/i);
 
-  if (token !== CHAVE_ACESSO) {
+  if (!bearerMatch) {
+    return res.status(401).json({
+      erro: 'Formato de autenticação inválido.',
+      dica: 'Use o formato: Authorization: Bearer <chave>',
+    });
+  }
+
+  const token = bearerMatch[1].trim();
+
+  if (!token || token !== CHAVE_ACESSO) {
     return res.status(403).json({
       erro: 'Acesso proibido. Crachá inválido ou vencido.',
     });
   }
 
-  // Token válido — libera a passagem para o próximo posto
   next();
 };
 
